@@ -9,6 +9,7 @@ const userId = process.env.USER_ID;
 
 async function changeNickname() {
     try {
+        console.log('Nickname changed');
         const guild = await client.guilds.fetch(guildId);
         const member = await guild.members.fetch(userId);
         const nickname = member.nickname;
@@ -26,6 +27,7 @@ cron.schedule('0 0 * * *', () => {
 });
 
 client.once('ready', () => {
+    console.log('Bot started');
     changeNickname(); 
 });
 
