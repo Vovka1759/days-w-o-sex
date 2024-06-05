@@ -22,7 +22,7 @@ async function changeNickname() {
     }
 }
 
-cron.schedule('0 0 * * *', () => {
+cron.schedule('0 21 * * *', () => {
     changeNickname();
 });
 
