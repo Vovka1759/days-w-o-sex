@@ -9,12 +9,13 @@ const userId = process.env.USER_ID;
 
 async function changeNickname() {
     try {
-        console.log('Nickname changed');
+        console.log('Trying changing nickname');
         const guild = await client.guilds.fetch(guildId);
         const member = await guild.members.fetch(userId);
         const nickname = member.nickname;
         if(nickname.match(/\d+\s+days\s+w\/o\s+sex/)){
             const newNickname = `${parseInt(nickname.slice(0, -13)) + 1} days w/o sex`;
+            console.log(`${nickname} => ${newNickname}`);
             member.setNickname(newNickname);
         };
     } catch (error) {
