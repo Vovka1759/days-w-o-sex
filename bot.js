@@ -1,23 +1,23 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const cron = require('node-cron');
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+//const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+
 
 const token = process.env.DISCORD_BOT_TOKEN; 
 const guildId = process.env.GUILD_ID;
 const userId = process.env.USER_ID; 
 
+let guild;
+let member;
+let nickname;
+
 async function changeNickname() {
     try {
         console.log('Trying changing nickname');
-        const guild = await client.guilds.fetch(guildId);
-        const member = await guild.members.fetch(userId);
-        const nickname = member.nickname;
-        if(nickname.match(/\d+\s+days\s+w\/o\s+sex/)){
-            const newNickname = `${parseInt(nickname.slice(0, -13)) + 1} days w/o sex`;
-            console.log(`${nickname} => ${newNickname}`);
-            member.setNickname(newNickname);
-        };
+        console.log(`${nickname} => ${++nickname}`);
+        member.setNickname(nickname);
     } catch (error) {
         console.error('Error changing nickname:', error);
     }
@@ -27,9 +27,15 @@ cron.schedule('0 21 * * *', () => {
     changeNickname();
 });
 
+async function init(){
+    guild = await client.guilds.fetch(guildId);
+    member = await guild.members.fetch(userId);
+    nickname = parseInt(member.nickname.slice(0, -13));
+}
+
 client.once('ready', () => {
     console.log('Bot started');
-    changeNickname(); 
+    init().then(()=>{changeNickname()}); 
 });
 
 client.login(token);
