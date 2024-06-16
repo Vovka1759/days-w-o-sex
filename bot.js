@@ -17,7 +17,7 @@ async function changeNickname() {
     try {
         console.log('Trying changing nickname');
         console.log(`${nickname} => ${++nickname}`);
-        member.setNickname(nickname);
+        member.setNickname(`${nickname} days w/o sex`);
     } catch (error) {
         console.error('Error changing nickname:', error);
     }
